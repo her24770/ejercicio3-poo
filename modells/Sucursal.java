@@ -35,8 +35,8 @@ public class Sucursal {
     }
 
     public String toString(){
-        return "\nId: " + id + 
-        "\n Nombre: " + nombre +
-        "\n Direccion: " + direccion + "\n";
+        return "\nIdentificador: " + id + 
+        "\nNombre: " + nombre +
+        "\nDireccion: " + direccion + "\n";
     }
 }
