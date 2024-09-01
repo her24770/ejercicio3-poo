@@ -1,0 +1,10 @@
+ISBN, Titulo, Autor, FechaPublicacion, Genero, IdSucursal, Disponibles
+978-3-16-148410-0,El Principito,Antoine de Saint-Exupéry,1943-04-06,Ficción,101,10
+978-0-7432-7356-5,1984,George Orwell,1949-06-08,Ciencia Ficción,102,8
+978-0-452-28423-4,Matar a un ruiseñor,Harper Lee,1960-07-11,Clásico,103,5
+978-0-06-112008-4,Cien años de soledad,Gabriel García Márquez,1967-05-30,Realismo Mágico,104,12
+978-0-14-044913-6,Crimen y castigo,Fiódor Dostoyevski,1866-01-01,Novela Psicológica,105,7
+a,a,a,a,Fantasia,1,2
+null,1,1,1,Fantasia,1,1
+null,1,1,1,Fantasia,1,1
+1,1,1,1,Fantasia,1,1
