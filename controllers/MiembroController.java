@@ -42,7 +42,7 @@ public class MiembroController {
     }
 
     public void addMiembro(Miembro newMiembro){
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("libros.csv", true))) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("miembros.csv", true))) {
             // Crear cadnea String
             String newLine = newMiembro.getId() + "," + 
                              newMiembro.getNombre() + "," + 

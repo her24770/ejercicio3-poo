@@ -21,18 +21,17 @@ public class Main {
         System.out.println("------Bienvenido----");
         
         Boolean repeatMenu=true;
-
-        String nombreArchivo = "libros.csv";
          
-        List<String> archivosCSV= List.of("libros.csv");
+        List<String> archivosCSV= List.of("libros.csv", "miembros.csv");
         for(String archivoCSV:archivosCSV){
             File archivo = new File(archivoCSV);
             Boolean archivoExiste = archivo.exists() && archivo.isFile();
             if (!archivoExiste){
-                System.out.println("El archivo '" + nombreArchivo + "' no existe!!");
+                System.out.println("El archivo de"+ archivoCSV +"no existe!!");
                 repeatMenu=false;
             }
         }
+
 
         while (repeatMenu) {
             System.out.print("\n------MENU---"+
@@ -90,6 +89,23 @@ public class Main {
                     break;
 
                 case "2":
+
+                    // Creacion de un nuevo miembro dentro de la lista
+                    Miembro newMiembro = new Miembro();
+                    System.out.println("\n---- NUEVO MIEMBRO ----");
+
+                    //Busca el ultimo id ingresado para crear el del nuevo miembro
+                    for(Miembro miembro:miembros){
+                        newMiembro.setId(miembros.getLast().getId()+1);
+                    }
+
+                    //Se establecen el resto de los valores
+                    System.out.print("Ingrese el nombre del nuevo miembro : ");
+                    newMiembro.setNombre(sc.nextLine());
+                    System.out.print("Ingrese el telefono : ");
+                    newMiembro.setTelefono(sc.nextLine());
+                    System.out.print("Ingrese la edad : ");
+                    newMiembro.setEdad(Integer.parseInt(sc.nextLine()));
 
                     break;
 
