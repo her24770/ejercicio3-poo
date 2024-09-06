@@ -3,15 +3,18 @@ import java.util.Scanner;
 import java.io.File;
 
 import controllers.LibroController;
+import controllers.MiembroController;
 import modells.Libro;
 
 public class Main {
     public static void main(String[] args) {
         //Controllers
         LibroController libroC = new LibroController();
+        MiembroController miembroC = new MiembroController();
         //Array List
         List<Libro> libros=libroC.listLibros();
         List<String> listaGenerosLibros = List.of("Fantasia", "Novela", "ficcion", "Poesia","Geografia", "Didatico","Infantil","Biografias");
+        List<Miembro> miembros = miembroC.listMiembros();
         Scanner sc = new Scanner(System.in);
 
         System.out.println("------Bienvenido----");

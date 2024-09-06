@@ -6,6 +6,13 @@ public class Miembro {
     public String telefono;
     public int edad;
 
+    public Miembro(int id, String nombre, String telefono, int edad) {
+        this.id = id;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.edad = edad;
+    }
+
     //Metodos
 
     public Miembro(){
