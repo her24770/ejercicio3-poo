@@ -95,9 +95,8 @@ public class Main {
                     System.out.println("\n---- NUEVO MIEMBRO ----");
 
                     //Busca el ultimo id ingresado para crear el del nuevo miembro
-                    for(Miembro miembro:miembros){
-                        newMiembro.setId(miembros.getLast().getId()+1);
-                    }
+                    newMiembro.setId(miembros.getLast().getId()+1);
+                    
 
                     //Se establecen el resto de los valores
                     System.out.print("Ingrese el nombre del nuevo miembro : ");
@@ -106,6 +105,9 @@ public class Main {
                     newMiembro.setTelefono(sc.nextLine());
                     System.out.print("Ingrese la edad : ");
                     newMiembro.setEdad(Integer.parseInt(sc.nextLine()));
+
+                    miembroC.addMiembro(newMiembro);
+                    miembros = miembroC.listMiembros();
 
                     break;
 
