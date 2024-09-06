@@ -1,6 +1,8 @@
 import java.util.List;
 import java.util.Scanner;
 import java.io.File;
+import java.util.Date;
+import java.util.Calendar;
 
 import controllers.*;
 import modells.*;
@@ -11,6 +13,7 @@ public class Main {
         LibroController libroC = new LibroController();
         MiembroController miembroC = new MiembroController();
         SucursalController sucursalC = new SucursalController();
+        PrestamoController prestamoC = new PrestamoController();
         //Array List
         List<Libro> libros=libroC.listLibros();
         List<String> listaGenerosLibros = List.of("Fantasia", "Novela", "ficcion", "Poesia","Geografia", "Didatico","Infantil","Biografias");
@@ -143,25 +146,65 @@ public class Main {
                     Prestamo newPrestamo = new Prestamo();
                     System.out.println("\n---- NUEVO PRESTAMO ----");
 
-                    Boolean miembroExists = true;
-                    while(miembroExists){
-                        System.out.print("Ingrese el id del miembro: ");
-                        int intentoMiembro = Integer.parseInt(sc.nextLine());
-    
-                        miembroExists = false; 
+                    Boolean miembroExists = false;
+                    System.out.print("Ingrese el id del miembro: ");
+                    int intentoMiembro = Integer.parseInt(sc.nextLine());
+                    while(!miembroExists){
                         for(Miembro miembro : miembros){
-                            if (miembro.getId() != intentoMiembro){
+                            if (miembro.getId() == intentoMiembro){
                                 miembroExists = true;
                             }
                         }
-                        if (miembroExists){
-                            System.out.print(">>>No existe este Miembro, ingrese de nuevo\n");
-                        }
-
-                        else{
+                        if (miembroExists) {
                             newPrestamo.setIdMiembro(intentoMiembro);
+                        }else{
+                            System.out.print("No existe, ingrese otro: ");
+                            intentoMiembro = Integer.parseInt(sc.nextLine());
+                        }
+                    } 
+                            
+                            Date fechai = new Date(); 
+                            newPrestamo.setFechaPrestamo(fechai);
+
+                            Calendar dias = Calendar.getInstance();
+                            dias.setTime(fechai);
+                            dias.add(Calendar.DAY_OF_MONTH, 7);
+                            Date fechaf = dias.getTime();
+                            newPrestamo.setFechaDevolucion(fechaf);
+                            
+                    
+
+                    Boolean libroExists = false;
+                    System.out.print("Ingrese el ISBN del libro que quiere prestar: ");
+                    String intentoLibro = sc.nextLine();
+                    Libro prestamo = null;
+                    while(!libroExists){
+                        
+                        for (Libro libro : libros){
+                            if (libro.getIsbn().equals(intentoLibro) ){
+                                libroExists = true;
+                                prestamo = libro;
+                            }
+                        }
+                        if (libroExists) {
+                            System.out.print(">>>libro encontrado");
+                            if(prestamo.getDisponibles() > 0){
+                                newPrestamo.setISBNLibro(prestamo.getIsbn());
+                                newPrestamo.setIdSucursal(prestamo.getIdSucursal());
+                                newPrestamo.setActivo(true);
+                            }
+                            else{
+                                System.out.println(">>>No contamos con copias del libro por el momento\n");
+                            }
+                        }
+                        else{
+                            System.out.print("No existe, ingrese otro: ");
+                            intentoLibro = sc.nextLine();
                         }
                     }
+                    
+                    prestamoC.addPrestamo(newPrestamo);
+                    prestamos = prestamoC.listPrestamos();
     
                     break;
 
