@@ -140,7 +140,29 @@ public class Main {
                     break;
 
                 case "4":
-                    
+                    Prestamo newPrestamo = new Prestamo();
+                    System.out.println("\n---- NUEVO PRESTAMO ----");
+
+                    Boolean miembroExists = true;
+                    while(miembroExists){
+                        System.out.print("Ingrese el id del miembro: ");
+                        int intentoMiembro = Integer.parseInt(sc.nextLine());
+    
+                        miembroExists = false; 
+                        for(Miembro miembro : miembros){
+                            if (miembro.getId() != intentoMiembro){
+                                miembroExists = true;
+                            }
+                        }
+                        if (miembroExists){
+                            System.out.print(">>>No existe este Miembro, ingrese de nuevo\n");
+                        }
+
+                        else{
+                            newPrestamo.setIdMiembro(intentoMiembro);
+                        }
+                    }
+    
                     break;
 
                 case "5":
