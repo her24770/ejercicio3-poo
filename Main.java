@@ -35,11 +35,10 @@ public class Main {
                                 "\n1. Agregar nuevo Libro"+
                                 "\n2. Agregar nuevo miembro"+
                                 "\n3. Agregar Sucursal"+
-                                "\n4. Agregar Sucursal"+
-                                "\n5. Prestamo del libro"+
-                                "\n6. Devolución de un libro"+
-                                "\n7. Estadisticas"+
-                                "\n8. Salir"+
+                                "\n4. Prestamo del libro"+
+                                "\n5. Devolución de un libro"+
+                                "\n6. Estadisticas"+
+                                "\n7. Salir"+
                                 "\nIngrese su opcion : "
                                 );
             String otpionMenu = sc.nextLine();
@@ -103,10 +102,6 @@ public class Main {
                     break;
 
                 case "6":
-                    
-                    break;
-
-                case "7":
                     Boolean repeatMenuEstaditicas=true;
                     while (repeatMenuEstaditicas){
                         System.out.print("\n----- ESTADISTICAS ------"+
@@ -141,7 +136,7 @@ public class Main {
                     }
                     break;
 
-                case "8":
+                case "7":
                     System.out.println("\nSaliendo...");
                     repeatMenu=false;
                     break;
