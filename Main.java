@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.io.File;
@@ -11,11 +12,13 @@ public class Main {
         LibroController libroC = new LibroController();
         MiembroController miembroC = new MiembroController();
         SucursalController sucursalC = new SucursalController();
+        PrestamoController prestamoC = new PrestamoController();
         //Array List
         List<Libro> libros=libroC.listLibros();
         List<String> listaGenerosLibros = List.of("Fantasia", "Novela", "ficcion", "Poesia","Geografia", "Didatico","Infantil","Biografias");
         List<Miembro> miembros = miembroC.listMiembros();
         List<Sucursal> sucursales = sucursalC.listSucursales();
+        List<Prestamo> prestamos = prestamoC.listPrestamos();
         Scanner sc = new Scanner(System.in);
 
         System.out.println("------Bienvenido----");
@@ -169,6 +172,15 @@ public class Main {
                     break;
 
                 case "5":
+                    System.out.println("-- LISTA DE PRESTAMOS --");
+                    List<Prestamo> presatmosActivos=new ArrayList<>(); 
+                    for(Prestamo prestamo: prestamos){
+                        if(prestamo.getActivo()==true){
+                            presatmosActivos.add(prestamo);
+                            System.out.println(prestamo.toString());
+                        }
+                    }
+                    int indexprestamo = Integer.parseInt(sc.nextLine());
                     
                     break;
 
