@@ -22,7 +22,7 @@ public class Main {
         
         Boolean repeatMenu=true;
          
-        List<String> archivosCSV= List.of("libros.csv", "miembros.csv");
+        List<String> archivosCSV= List.of("libros.csv", "miembros.csv","prestamos.csv","sucursales.csv");
         for(String archivoCSV:archivosCSV){
             File archivo = new File(archivoCSV);
             Boolean archivoExiste = archivo.exists() && archivo.isFile();
@@ -80,8 +80,11 @@ public class Main {
                     System.out.print("   Eleccion : ");
                     newLibro.setGenero(listaGenerosLibros.get(Integer.parseInt(sc.nextLine())-1));
                     System.out.print("Ingrese la sucursal del libro : ");
-                    //listar las sucursales
-                    newLibro.setIdSucursal(Integer.parseInt(sc.nextLine()));
+                    for(int i=0;i<sucursales.size();i++){
+                        System.out.println("    "+(i+1)+". "+sucursales.get(i).toString());
+                    }
+                    System.out.print("Seleccione la sucursal : ");
+                    newLibro.setIdSucursal(sucursales.get(Integer.parseInt(sc.nextLine())-1).getId());
                     System.out.println("Ingrese cuantas copias hay disponibles : ");
                     newLibro.setDisponibles(Integer.parseInt(sc.nextLine()));
                     libroC.addLibro(newLibro);

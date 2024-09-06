@@ -40,8 +40,7 @@ public class Sucursal {
     }
 
     public String toString(){
-        return "\nIdentificador: " + id + 
-        "\nNombre: " + nombre +
-        "\nDireccion: " + direccion + "\n";
+        return nombre +
+        ", " + direccion;
     }
 }
