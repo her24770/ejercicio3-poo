@@ -2,8 +2,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.io.File;
 
-import controllers.LibroController;
-import controllers.MiembroController;
+import controllers.*;
 import modells.*;
 
 public class Main {
@@ -11,10 +10,12 @@ public class Main {
         //Controllers
         LibroController libroC = new LibroController();
         MiembroController miembroC = new MiembroController();
+        SucursalController sucursalC = new SucursalController();
         //Array List
         List<Libro> libros=libroC.listLibros();
         List<String> listaGenerosLibros = List.of("Fantasia", "Novela", "ficcion", "Poesia","Geografia", "Didatico","Infantil","Biografias");
         List<Miembro> miembros = miembroC.listMiembros();
+        List<Sucursal> sucursal = sucursalC.listSucursales();
         Scanner sc = new Scanner(System.in);
 
         System.out.println("------Bienvenido----");
