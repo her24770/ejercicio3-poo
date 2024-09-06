@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.io.File;
@@ -213,6 +214,15 @@ public class Main {
                     break;
 
                 case "5":
+                    System.out.println("-- LISTA DE PRESTAMOS --");
+                    List<Prestamo> presatmosActivos=new ArrayList<>(); 
+                    for(Prestamo prestamo: prestamos){
+                        if(prestamo.getActivo()==true){
+                            presatmosActivos.add(prestamo);
+                            System.out.println(prestamo.toString());
+                        }
+                    }
+                    int indexprestamo = Integer.parseInt(sc.nextLine());
                     
                     break;
 
