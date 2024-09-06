@@ -7,14 +7,18 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class PrestamoController {
     public List<Prestamo> listPrestamos(){
-        List<Libro> libros = new ArrayList<>();
+        List<Prestamo> prestamos = new ArrayList<>();
 
-       try (BufferedReader br = new BufferedReader(new FileReader("libros.csv"))) {
+       try (BufferedReader br = new BufferedReader(new FileReader("prestamos.csv"))) {
            String linea;
            boolean esPrimeraLinea = true;
 
@@ -27,34 +31,35 @@ public class PrestamoController {
                // Dividir la linea por atibutos en List
                String[] valores = linea.split(",");
                // Definir el valor de cada atributo
-               String isbn = valores[0].trim();
-               String titulo = valores[1].trim();
-               String autor = valores[2].trim();
-               String fechaPublicacion = valores[3].trim();
-               String genero = valores[4].trim();
-               int idSucursal = Integer.parseInt(valores[5].trim());
-               int disponibles = Integer.parseInt(valores[6].trim());
+               SimpleDateFormat formato = new SimpleDateFormat("dd-MM-YYY");
+               int idMiembro = Integer.parseInt(valores[0].trim());
+               Date fechaPrestamo = formato.parse(valores[1].trim());
+               Date fechaDevolucion =  formato.parse(valores[2].trim());
+               int idSucursal = Integer.parseInt(valores[3].trim());
+               String ISBNPrestamo = valores[4].trim();
+               Boolean activo = Boolean.parseBoolean(valores[5].trim());
                //guardar en csv
-               Libro libro = new Libro(isbn, titulo, autor, fechaPublicacion, genero, idSucursal, disponibles);
-               libros.add(libro);
+               Prestamo prestamo = new Prestamo(idMiembro, fechaPrestamo, fechaDevolucion, idSucursal, ISBNPrestamo, activo);
+               prestamos.add(prestamo);
            }
        } catch (IOException e) {
            System.err.println("Error al leer el archivo CSV: " + e.getMessage());
-       }
-       return libros;
+       } catch (ParseException e) {
+            System.err.println("Error al leer la fechas: " + e.getMessage());
+    }
+       return prestamos;
    }
 
    
-   public void addLibro(Libro newLibro){
-       try (BufferedWriter bw = new BufferedWriter(new FileWriter("libros.csv", true))) {
+   public void addPrestamo(Prestamo newPrestamo){
+       try (BufferedWriter bw = new BufferedWriter(new FileWriter("prestamos.csv", true))) {
            // Crear cadnea String
-           String newLine = newLibro.getIsbn() + "," + 
-                            newLibro.getTitulo() + "," + 
-                            newLibro.getAutor() + "," + 
-                            newLibro.getFechaPublicacion() + "," + 
-                            newLibro.getGenero() + "," + 
-                            newLibro.getIdSucursal() + "," + 
-                            newLibro.getDisponibles();
+           String newLine = newPrestamo.getIdMiembro() + "," + 
+                            newPrestamo.getFechaPrestamo() + "," + 
+                            newPrestamo.getFechaDevolucion() + "," + 
+                            newPrestamo.getIdSucursal() + "," + 
+                            newPrestamo.getISBNLibro() + "," + 
+                            newPrestamo.getActivo();
            
            // Escribir la nueva línea al archivo CSV con linea de salot
            bw.write(newLine);
