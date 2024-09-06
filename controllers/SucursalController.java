@@ -50,7 +50,8 @@ public class SucursalController {
            
            // Escribir la nueva línea al archivo CSV con linea de salto
            bw.write(newLine);
-           bw.newLine();  
+           bw.newLine();
+             
        } catch (IOException e) {
            System.err.println("Error al escribir en el archivo CSV: " + e.getMessage());
        }

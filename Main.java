@@ -15,7 +15,7 @@ public class Main {
         List<Libro> libros=libroC.listLibros();
         List<String> listaGenerosLibros = List.of("Fantasia", "Novela", "ficcion", "Poesia","Geografia", "Didatico","Infantil","Biografias");
         List<Miembro> miembros = miembroC.listMiembros();
-        List<Sucursal> sucursal = sucursalC.listSucursales();
+        List<Sucursal> sucursales = sucursalC.listSucursales();
         Scanner sc = new Scanner(System.in);
 
         System.out.println("------Bienvenido----");
@@ -94,7 +94,31 @@ public class Main {
                     break;
 
                 case "3":
-                    
+                    Sucursal newSucursal = new Sucursal();
+                    System.out.println("\n---- NUEVA SUCURSAL ----");
+                    Boolean nombreExists = true;
+                    while(nombreExists){
+                        System.out.print("Ingrese el nombre de la sucursal: ");
+                        String intentoNombre = sc.nextLine();
+    
+                        nombreExists = false; 
+                        for(Sucursal sucursal : sucursales){
+                            if (sucursal.getNombre().equals(intentoNombre)){
+                                nombreExists = true;
+                            }
+                        }
+                        if (nombreExists){
+                            System.out.print(">>>Ya existe esa sucursal\n");
+                        }
+                        else{
+                            newSucursal.setNombre(intentoNombre);
+                            newSucursal.setId(sucursales.getLast().getId()+1);
+                        }
+                    }
+                    System.out.print("Ingrese la direccion: ");
+                    newSucursal.setDireccion(sc.nextLine());
+                    sucursalC.addSucursal(newSucursal);
+                    sucursales = sucursalC.listSucursales();
                     break;
 
                 case "4":
