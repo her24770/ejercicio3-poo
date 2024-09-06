@@ -19,6 +19,7 @@ public class Main {
         List<String> listaGenerosLibros = List.of("Fantasia", "Novela", "ficcion", "Poesia","Geografia", "Didatico","Infantil","Biografias");
         List<Miembro> miembros = miembroC.listMiembros();
         List<Sucursal> sucursales = sucursalC.listSucursales();
+        List<Prestamo> prestamos = prestamoC.listPrestamos();
         Scanner sc = new Scanner(System.in);
 
         System.out.println("------Bienvenido----");
