@@ -77,4 +77,43 @@ public class LibroController {
             System.err.println("Error al escribir en el archivo CSV: " + e.getMessage());
         }
     }
+
+    public void updateLibro(Libro updateLibro, int filaAEditar){
+        // Leer todas las filas del archivo CSV
+            List<String[]> rows = new ArrayList<>();
+    
+            try (BufferedReader br = new BufferedReader(new FileReader("libros.csv"))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    // Dividir cada línea por comas
+                    String[] data = line.split(",");
+                    rows.add(data);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if (rows.size() > filaAEditar) {
+                // Nueva fila que queremos poner en su lugar
+                String[] nuevaFila = {updateLibro.getIsbn(),
+                                        updateLibro.getTitulo(),
+                                        updateLibro.getAutor(),
+                                        updateLibro.getFechaPublicacion(),
+                                        updateLibro.getGenero(),
+                                        Integer.toString(updateLibro.getIdSucursal()),
+                                        Integer.toString(updateLibro.getDisponibles()),
+                                        };
+                rows.set(filaAEditar, nuevaFila);  // Reemplazar la fila existente con la nueva fila
+            }
+    
+            // Guardar los cambios escribiendo el archivo CSV de nuevo
+            try (BufferedWriter bw = new BufferedWriter(new FileWriter("libros.csv"))) {
+                for (String[] row : rows) {
+                    bw.write(String.join(",", row));
+                    bw.newLine();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+    
+       }
 }

@@ -200,6 +200,15 @@ public class Main {
                                 newPrestamo.setISBNLibro(libroPrestamo.getIsbn());
                                 newPrestamo.setIdSucursal(libroPrestamo.getIdSucursal());
                                 newPrestamo.setActivo(true);
+                                //
+                                for(int i =0; i<libros.size();i++){
+                                    if(libros.get(i).getIsbn().equals(libroPrestamo.getIsbn())){
+                                        libroPrestamo.setDisponibles(libroPrestamo.getDisponibles()-1);
+                                        libroC.updateLibro(libroPrestamo, i+1);
+                                    }
+                                }
+                                //
+
                             }
                             else{
                                 System.out.println(">>>No contamos con copias del libro por el momento\n");
@@ -225,7 +234,7 @@ public class Main {
                             System.out.println("    "+(i+1)+". "+prestamos.get(i).toString());
                         }
                     }
-                    System.out.println("Ingrese el numero prestamo que desea cambiar de estado");
+                    System.out.print("Ingrese el numero prestamo que desea cambiar de estado");
                     int indexPrestamo = Integer.parseInt(sc.nextLine());
                     if (1>indexPrestamo || indexPrestamo>prestamos.size()) {
                         System.out.println("Este prestamo no existe");
