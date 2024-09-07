@@ -10,7 +10,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * El controlador con los metodos necesarios para listar y agregar los miembros al CSV
+ * @author Juan Daniel Ordoñez
+ */
+
 public class MiembroController {
+
+    /**
+    * Lee el archivo CSV y convierte las filas en un objeto, el nuevo miembro
+    * @return Una lista de objetos Miembro que se sacaron del CSV
+    */
     public List<Miembro> listMiembros(){
         List<Miembro> miembros = new ArrayList<>();
 
@@ -41,6 +51,10 @@ public class MiembroController {
         return miembros;
     }
 
+    /**
+     * Agrega un nuevo objeto miembro y sus datos al CSV
+     * @param newMiembro El nuevo miembro que se va a agregar a miembros.csv
+     */
     public void addMiembro(Miembro newMiembro){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("miembros.csv", true))) {
             // Crear cadnea String

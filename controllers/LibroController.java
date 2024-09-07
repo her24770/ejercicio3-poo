@@ -10,7 +10,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * El controlador con los metodos necesarios para listar y agregar los libros al CSV
+ * @author Josue Hernandez  
+ */
+
 public class LibroController {
+
+    /**
+    * Lee el archivo CSV y convierte las filas en un objeto, el libro
+    * @return Una lista de objetos Libro obtenidos del archivo CSV.
+    */
     public List<Libro> listLibros(){
          List<Libro> libros = new ArrayList<>();
 
@@ -44,7 +54,11 @@ public class LibroController {
         return libros;
     }
 
-    
+    /**
+     * /**
+     * Agrega un nuevo libro y su informacion a libros.csv
+     * @param newLibro El objeto que se va a agregar al CSV
+     */
     public void addLibro(Libro newLibro){
         try (BufferedWriter bw = new BufferedWriter(new FileWriter("libros.csv", true))) {
             // Crear cadnea String

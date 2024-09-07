@@ -2,6 +2,7 @@ package modells;
 import java.util.Date;
 /**
  * Clase que almacena los datos de cada prestamo
+ * @author Gabriel Hidalgo 
  */
 public class Prestamo {
     public int idMiembro;
@@ -10,8 +11,6 @@ public class Prestamo {
     public int idSucursal;
     public String ISBNLibro;
     public Boolean activo;
-    
-    //Metodos
 
     /**
      * Constructor personalizado
@@ -37,8 +36,10 @@ public class Prestamo {
     public Prestamo(){
     }
 
+    //Metodos
+
     /**
-     * @param idMiembro identificador de miembro
+     * @param idMiembro identificador del miembro
      */
     public void setIdMiembro(int idMiembro){
         this.idMiembro = idMiembro;

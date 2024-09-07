@@ -10,7 +10,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * El controlador con los metodos necesarios para listar y agregar las Sucursales al CSV
+ * @author Gabriel Hidalgo  
+ */
+
 public class SucursalController {
+
+    /**
+    * Lee el archivo CSV y convierte las filas en un objeto, la Sucursal
+    * @return Una lista de objetos Sucursal obtenidos del archivo CSV.
+    */
     public List<Sucursal> listSucursales(){
         List<Sucursal> sucursales = new ArrayList<>();
 
@@ -40,7 +50,10 @@ public class SucursalController {
        return sucursales;
    }
 
-   
+   /**
+    * Agrega una nueva sucursal y su informacion a sucursales.csv
+    * @param newSucursal
+    */
    public void addSucursal(Sucursal newSucursal){
        try (BufferedWriter bw = new BufferedWriter(new FileWriter("sucursales.csv", true))) {
            // Crear cadena String
