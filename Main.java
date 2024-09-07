@@ -12,6 +12,11 @@ import java.util.Map;
 import controllers.*;
 import modells.*;
 
+/** 
+ *  @author Josue Hernandez 24770, Juan Daniel Ordoñez 24979, Gabriel Hidalgo 24939 
+ *  Creación: 31-08-2024 
+ *  Ultima actualización: 06-09-2024 */
+
 public class Main {
     public static void main(String[] args) {
         //Controllers
@@ -43,7 +48,7 @@ public class Main {
             }
         }
 
-
+        //El ciclo del MENU
         while (repeatMenu) {
             System.out.print("\n------MENU---"+
                                 "\n1. Agregar nuevo Libro"+
@@ -70,14 +75,15 @@ public class Main {
                                 existLibro=true;
                             }
                         }
-                        if (existLibro) {
+                        if (existLibro) {  // Si el ISBN existe se le pide otro
                             System.out.print("Ya existe este ISBN elija otro :");
                             isbnNewLibro=sc.nextLine();
-                        }else{
+                        }else{ // Si el ISBN no existe sigue con el proceso
                             newLibro.setIsbn(isbnNewLibro);
                         }
                     }
                     
+                    //Ingreso del resto de los datos para el nuevo libro
                     System.out.print("Ingrese el titulo : ");
                     newLibro.setTitulo(sc.nextLine());
                     System.out.print("Ingrese el autor : ");
@@ -85,12 +91,14 @@ public class Main {
                     System.out.print("Ingrese la fecha de publicacion : ");
                     newLibro.setFechaPublicacion(sc.nextLine());
                     System.out.println("Seleccione el genero : ");
+                    //Muestra los generos disponibles
                     for(int i =1;i<listaGenerosLibros.size();i++){
                         System.out.println("   "+i+". "+listaGenerosLibros.get(i-1));
                     }
                     System.out.print("   Eleccion : ");
                     newLibro.setGenero(listaGenerosLibros.get(Integer.parseInt(sc.nextLine())-1));
                     System.out.print("Ingrese la sucursal del libro : ");
+                    //Muestra las sucursales disponibles
                     for(int i=0;i<sucursales.size();i++){
                         System.out.println("    "+(i+1)+". "+sucursales.get(i).toString());
                     }
@@ -99,7 +107,7 @@ public class Main {
                     System.out.println("Ingrese cuantas copias hay disponibles : ");
                     newLibro.setDisponibles(Integer.parseInt(sc.nextLine()));
                     libroC.addLibro(newLibro);
-                    libros=libroC.listLibros();
+                    libros=libroC.listLibros(); //Agrega y actualiza la lista y controlador de libros
                     break;
 
                 case "2":
@@ -133,6 +141,7 @@ public class Main {
                         System.out.print("Ingrese el nombre de la sucursal: ");
                         String intentoNombre = sc.nextLine();
     
+                        //Verificacion para ver si la sucursal ya existe
                         nombreExists = false; 
                         for(Sucursal sucursal : sucursales){
                             if (sucursal.getNombre().equals(intentoNombre)){
@@ -142,11 +151,15 @@ public class Main {
                         if (nombreExists){
                             System.out.print(">>>Ya existe esa sucursal\n");
                         }
+
+                        //Le asigna el nombre a la sucursal y genera el id para esta misma
                         else{
                             newSucursal.setNombre(intentoNombre);
                             newSucursal.setId(sucursales.getLast().getId()+1);
                         }
                     }
+
+                    //Se asigna direccion, actualiza controlador y se agrega a la lista la nueva sucursal
                     System.out.print("Ingrese la direccion: ");
                     newSucursal.setDireccion(sc.nextLine());
                     sucursalC.addSucursal(newSucursal);
@@ -157,6 +170,7 @@ public class Main {
                     Prestamo newPrestamo = new Prestamo();
                     System.out.println("\n---- NUEVO PRESTAMO ----");
 
+                    //Verificacion para ver si existe el miembro
                     Boolean miembroExists = false;
                     System.out.print("Ingrese el id del miembro: ");
                     int intentoMiembro = Integer.parseInt(sc.nextLine());
@@ -173,6 +187,8 @@ public class Main {
                             intentoMiembro = Integer.parseInt(sc.nextLine());
                         }
                     }    
+
+                    //Se asignan las fechas para prestamos y devolucion
                     Date fechai = new Date(); 
                     Calendar dias = Calendar.getInstance();
                     dias.setTime(fechai);
@@ -181,7 +197,7 @@ public class Main {
                     Date fechaf = dias.getTime();
                     newPrestamo.setFechaDevolucion(fechaf);
                    
-
+                    //Verificacion para ver existencia y disponibilidad de libro
                     Boolean libroExists = false;
                     System.out.print("Ingrese el ISBN del libro que quiere prestar: ");
                     String intentoLibro = sc.nextLine();
@@ -194,6 +210,8 @@ public class Main {
                                 libroPrestamo = libro;
                             }
                         }
+
+                        
                         if (libroExists) {
                             System.out.print(">>>libro encontrado");
                             if(libroPrestamo.getDisponibles() > 0){
