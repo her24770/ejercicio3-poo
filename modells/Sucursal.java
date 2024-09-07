@@ -76,8 +76,7 @@ public class Sucursal {
      * Devuelve los valores del objeto
      */
     public String toString(){
-        return "\nIdentificador: " + id + 
-        "\nNombre: " + nombre +
-        "\nDireccion: " + direccion + "\n";
+        return nombre +
+        ", " + direccion;
     }
 }

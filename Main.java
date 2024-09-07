@@ -1,6 +1,13 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.io.File;
+import java.util.Date;
+import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import controllers.*;
 import modells.*;
@@ -11,18 +18,22 @@ public class Main {
         LibroController libroC = new LibroController();
         MiembroController miembroC = new MiembroController();
         SucursalController sucursalC = new SucursalController();
+        PrestamoController prestamoC = new PrestamoController();
         //Array List
         List<Libro> libros=libroC.listLibros();
         List<String> listaGenerosLibros = List.of("Fantasia", "Novela", "ficcion", "Poesia","Geografia", "Didatico","Infantil","Biografias");
         List<Miembro> miembros = miembroC.listMiembros();
         List<Sucursal> sucursales = sucursalC.listSucursales();
+        List<Prestamo> prestamos = prestamoC.listPrestamos();
         Scanner sc = new Scanner(System.in);
+
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-YYYY");
 
         System.out.println("------Bienvenido----");
         
         Boolean repeatMenu=true;
          
-        List<String> archivosCSV= List.of("libros.csv", "miembros.csv");
+        List<String> archivosCSV= List.of("libros.csv", "miembros.csv","prestamos.csv","sucursales.csv");
         for(String archivoCSV:archivosCSV){
             File archivo = new File(archivoCSV);
             Boolean archivoExiste = archivo.exists() && archivo.isFile();
@@ -80,8 +91,11 @@ public class Main {
                     System.out.print("   Eleccion : ");
                     newLibro.setGenero(listaGenerosLibros.get(Integer.parseInt(sc.nextLine())-1));
                     System.out.print("Ingrese la sucursal del libro : ");
-                    //listar las sucursales
-                    newLibro.setIdSucursal(Integer.parseInt(sc.nextLine()));
+                    for(int i=0;i<sucursales.size();i++){
+                        System.out.println("    "+(i+1)+". "+sucursales.get(i).toString());
+                    }
+                    System.out.print("Seleccione la sucursal : ");
+                    newLibro.setIdSucursal(sucursales.get(Integer.parseInt(sc.nextLine())-1).getId());
                     System.out.println("Ingrese cuantas copias hay disponibles : ");
                     newLibro.setDisponibles(Integer.parseInt(sc.nextLine()));
                     libroC.addLibro(newLibro);
@@ -143,29 +157,92 @@ public class Main {
                     Prestamo newPrestamo = new Prestamo();
                     System.out.println("\n---- NUEVO PRESTAMO ----");
 
-                    Boolean miembroExists = true;
-                    while(miembroExists){
-                        System.out.print("Ingrese el id del miembro: ");
-                        int intentoMiembro = Integer.parseInt(sc.nextLine());
-    
-                        miembroExists = false; 
+                    Boolean miembroExists = false;
+                    System.out.print("Ingrese el id del miembro: ");
+                    int intentoMiembro = Integer.parseInt(sc.nextLine());
+                    while(!miembroExists){
                         for(Miembro miembro : miembros){
-                            if (miembro.getId() != intentoMiembro){
+                            if (miembro.getId() == intentoMiembro){
                                 miembroExists = true;
                             }
                         }
-                        if (miembroExists){
-                            System.out.print(">>>No existe este Miembro, ingrese de nuevo\n");
-                        }
-
-                        else{
+                        if (miembroExists) {
                             newPrestamo.setIdMiembro(intentoMiembro);
+                        }else{
+                            System.out.print("No existe, ingrese otro: ");
+                            intentoMiembro = Integer.parseInt(sc.nextLine());
+                        }
+                    }    
+                    Date fechai = new Date(); 
+                    Calendar dias = Calendar.getInstance();
+                    dias.setTime(fechai);
+                    newPrestamo.setFechaPrestamo(fechai);
+                    dias.add(Calendar.DAY_OF_MONTH, 7);
+                    Date fechaf = dias.getTime();
+                    newPrestamo.setFechaDevolucion(fechaf);
+                   
+
+                    Boolean libroExists = false;
+                    System.out.print("Ingrese el ISBN del libro que quiere prestar: ");
+                    String intentoLibro = sc.nextLine();
+                    Libro libroPrestamo = null;
+                    while(!libroExists){
+                        
+                        for (Libro libro : libros){
+                            if (libro.getIsbn().equals(intentoLibro) ){
+                                libroExists = true;
+                                libroPrestamo = libro;
+                            }
+                        }
+                        if (libroExists) {
+                            System.out.print(">>>libro encontrado");
+                            if(libroPrestamo.getDisponibles() > 0){
+                                newPrestamo.setISBNLibro(libroPrestamo.getIsbn());
+                                newPrestamo.setIdSucursal(libroPrestamo.getIdSucursal());
+                                newPrestamo.setActivo(true);
+                            }
+                            else{
+                                System.out.println(">>>No contamos con copias del libro por el momento\n");
+                            }
+                        }
+                        else{
+                            System.out.print("No existe, ingrese otro: ");
+                            intentoLibro = sc.nextLine();
                         }
                     }
+                    
+                    prestamoC.addPrestamo(newPrestamo);
+                    prestamos = prestamoC.listPrestamos();
+                    for(Prestamo prestamo:prestamos)System.out.println(prestamo);
     
                     break;
 
                 case "5":
+                    System.out.println("-- LISTA DE PRESTAMOS --");
+                    List<Prestamo> presatmosActivos=new ArrayList<>(); 
+                    Prestamo prestamoFind = new Prestamo();
+                    for(int i =0; i<prestamos.size(); i++){
+                        if(prestamos.get(i).getActivo()==true){
+                            presatmosActivos.add(prestamos.get(i));
+                            System.out.println("    "+(i+1)+". "+prestamos.get(i).toString());
+                        }
+                    }
+                    int indexPrestamo = Integer.parseInt(sc.nextLine());
+                    if (0>indexPrestamo && indexPrestamo>presatmosActivos.size()) {
+                        System.out.println("Este libro no existe");
+                    }else{
+                        prestamoFind = presatmosActivos.get(indexPrestamo-1);
+                        //
+                        for(Prestamo prestamo: prestamos){
+                            if(prestamo.equals(prestamoFind)){
+                                prestamo.setActivo(false);
+                            }
+                        }
+                        //
+                        for(Prestamo prestamo : prestamos){
+                            System.out.print(prestamo.toString());
+                        }
+                    }
                     
                     break;
 
@@ -175,16 +252,80 @@ public class Main {
                         System.out.print("\n----- ESTADISTICAS ------"+
                                         "\n1. Cantidad de libros prestados"+
                                         "\n2. Generos mas solicitados"+
-                                        "\n3. Lirbo mas prestado"+
+                                        "\n3. Libro mas prestado"+
                                         "\n4. Salir"+
-                                        "\nIngrese su opcion : ");
+                                        "\n\nIngrese su opcion : ");
                         String optionMenuEstadisticas = sc.nextLine();
                         switch (optionMenuEstadisticas) {
                             case "1":
-                                
+
+                                Boolean inicioVacio = true;
+                                Date inicioRango = null;
+                                while(inicioVacio){
+                                    System.out.print("Ingrese la fecha de inicio (DD-MM-YYYY): "); 
+                                    try{
+                                        inicioRango = formato.parse(sc.nextLine());
+                                        inicioVacio = false;
+                                    } catch(ParseException e ){
+                                        System.out.println("Error al ingresar fecha, recuerda utilizar el formato descrito");
+                                    }
+                                }
+
+                                Date finRango = null;
+                                Boolean finVacio = true;
+                                while(finVacio){
+                                    System.out.print("Ingrese la fecha de fin (DD-MM-YYYY): "); 
+                                    try{
+                                        finRango = formato.parse(sc.nextLine());
+                                        finVacio = false;
+                                    } catch(ParseException e ){
+                                        System.out.println("Error al ingresar fecha, recuerda utilizar el formato descrito");
+                                    }
+                                }
+
+                                Date rangefecha = null;
+                                int librosPrestados = 0;
+                                for(Prestamo prestamos_index : prestamos){
+                                    if(prestamos_index.getFechaDevolucion().after(inicioRango) && prestamos_index.getFechaDevolucion().before(finRango)){
+                                        librosPrestados++;
+                                    }
+                                }
+
+                                System.out.println("\n<<Entre esas fechas se prestaron " + librosPrestados + " libros>>");
                                 break;
 
                             case "2":
+                                
+                                ArrayList<String> generos = new ArrayList<>();
+                                String libroPedido = null; 
+                                for (Prestamo prestamo_index : prestamos){
+                                    libroPedido = prestamo_index.getISBNLibro();
+
+                                    for (Libro libro : libros){
+                                        if(libroPedido.equals(libro.getIsbn())){
+
+                                            generos.add(libro.getGenero());
+                                        }
+                                    }
+                                }
+                               
+                                //Convertir lista de generos a mapa
+                                Map<String, Integer> conteo = new HashMap<>();
+                                for (String genero_index : generos){
+                                    conteo.put(genero_index, conteo.getOrDefault(genero_index, 0) + 1);
+                                }
+
+                                //Ordenar la lista
+                                List<Map.Entry<String, Integer>> ordenamiento = new ArrayList<>(conteo.entrySet());
+                                ordenamiento.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
+
+                                //Obtener los tres generos mas pedidos
+                                List<String> top3Generos = new ArrayList<>();
+                                    for(int top = 0; top < 3 && top < ordenamiento.size(); top++){
+                                        top3Generos.add(ordenamiento.get(top).getKey());
+                                    }
+
+                                    System.out.println("Los tres generos mas pedidos son: " + top3Generos + "\n");
                                 
                                 break;
 
