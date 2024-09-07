@@ -19,7 +19,7 @@ public class MiembroController {
 
     /**
     * Lee el archivo CSV y convierte las filas en un objeto, el nuevo miembro
-    * @return Una lista de objetos Miembro que se sacaron del CSV
+    * @return List<Miembro> Una lista de objetos Miembro que se sacaron del CSV
     */
     public List<Miembro> listMiembros(){
         List<Miembro> miembros = new ArrayList<>();

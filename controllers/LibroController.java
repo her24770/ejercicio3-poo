@@ -19,7 +19,7 @@ public class LibroController {
 
     /**
     * Lee el archivo CSV y convierte las filas en un objeto, el libro
-    * @return Una lista de objetos Libro obtenidos del archivo CSV.
+    * @return List<Libro> Una lista de objetos Libro obtenidos del archivo CSV.
     */
     public List<Libro> listLibros(){
          List<Libro> libros = new ArrayList<>();

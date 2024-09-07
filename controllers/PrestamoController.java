@@ -16,9 +16,21 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Date;
 
+/**
+ * El controlador de la clase prestamos que maneja la edicion de sus datos, la adicion de prestamos al CSV
+ * y su lectura en la pantalla
+ */
+
 public class PrestamoController {
+
+    /**
+     * Lee el archivo CSV y convierte las filas en un objeto, los prestamos de libro
+     * @return List<Prestamo> lista de préstamos
+     */
     public List<Prestamo> listPrestamos(){
         List<Prestamo> prestamos = new ArrayList<>();
+
+        //Formatea las fechas con zonas horarias
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .appendPattern("EEE MMM dd HH:mm:ss ")
@@ -27,9 +39,13 @@ public class PrestamoController {
                 .optionalEnd()
                 .appendPattern(" yyyy")
                 .toFormatter(Locale.ENGLISH);
+
+        
         try (BufferedReader br = new BufferedReader(new FileReader("prestamos.csv"))) {
            String linea;
            boolean esPrimeraLinea = true;
+
+           //Lee el archivo CSV
            while ((linea = br.readLine()) != null) {
                // Saltar la primera línea que contiene encabezados
                if (esPrimeraLinea) {
@@ -65,7 +81,10 @@ public class PrestamoController {
        return prestamos;
    }
 
-   
+   /**
+    * Agrega un nuevo Prestamo y su informacion a prestamos.csv
+    * @param newPrestamo El objeto Prestamo que se agregara
+    */
    public void addPrestamo(Prestamo newPrestamo){
        try (BufferedWriter bw = new BufferedWriter(new FileWriter("prestamos.csv", true))) {
            // Crear cadnea String
@@ -84,10 +103,15 @@ public class PrestamoController {
        }
    }
 
+   /**
+    * Metodo para actualizar un prestamo que se encuentre dentro del CSV
+    * @param updatePrestamo El Prestamo que tiene los valores nuevos
+    */
    public void updatePrestamo(Prestamo updatePrestamo, int filaAEditar){
     // Leer todas las filas del archivo CSV
         List<String[]> rows = new ArrayList<>();
 
+        //Lee las lineas del CSV
         try (BufferedReader br = new BufferedReader(new FileReader("prestamos.csv"))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -98,11 +122,12 @@ public class PrestamoController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //Verificacion para ver si existe la fila que se quiere actualizar
         if (rows.size() > filaAEditar) {
             // Nueva fila que queremos poner en su lugar
             String datei = ""+updatePrestamo.getFechaPrestamo();
             String datef = ""+updatePrestamo.getFechaDevolucion();
-            System.out.print(datei+datef);
             String[] nuevaFila = {Integer.toString(updatePrestamo.getIdMiembro()),
                                                     datei,
                                                     datef,

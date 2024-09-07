@@ -19,7 +19,7 @@ public class SucursalController {
 
     /**
     * Lee el archivo CSV y convierte las filas en un objeto, la Sucursal
-    * @return Una lista de objetos Sucursal obtenidos del archivo CSV.
+    * @return List<Sucursal> Una lista de objetos Sucursal obtenidos del archivo CSV.
     */
     public List<Sucursal> listSucursales(){
         List<Sucursal> sucursales = new ArrayList<>();
