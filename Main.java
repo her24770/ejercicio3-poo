@@ -176,23 +176,13 @@ public class Main {
                         }
                     }    
                     Date fechai = new Date(); 
-                    String textFechai = formato.format(fechai);
-                    try{
-                        newPrestamo.setFechaPrestamo(formato.parse(textFechai));
-                    }catch(ParseException e){
-                        System.err.println("Error al añadir fecha de inicio");
-                    }
                     Calendar dias = Calendar.getInstance();
                     dias.setTime(fechai);
+                    newPrestamo.setFechaPrestamo(fechai);
                     dias.add(Calendar.DAY_OF_MONTH, 7);
                     Date fechaf = dias.getTime();
-                    String textFechaf = formato.format(fechaf);
-                    try{
-                    newPrestamo.setFechaDevolucion(formato.parse(textFechaf));
-                    }catch(ParseException e){
-                        System.err.println("Error al añadir fecha de inicio");
-                    }
-                            
+                    newPrestamo.setFechaDevolucion(fechaf);
+                   
 
                     Boolean libroExists = false;
                     System.out.print("Ingrese el ISBN del libro que quiere prestar: ");

@@ -1,4 +1,4 @@
 idMiembro, fechaPrestamo, fechaDevolucion, idSucursal, ISBNLibro, activo
 1,06-09-2024,13-09-2024,1,a,true
-1,Sun Dec 31 00:00:00 CST 2023,Sun Dec 31 00:00:00 CST 2023,1,a,true
-1,Sun Dec 31 00:00:00 CST 2023,Sun Dec 31 00:00:00 CST 2023,1,a,true
+1,Fri Sep 06 20:51:30 CST 2024,Fri Sep 13 20:51:30 CST 2024,1,a,true
+1,Fri Sep 06 20:54:11 CST 2024,Fri Sep 13 20:54:11 CST 2024,1,1,true
