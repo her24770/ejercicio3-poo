@@ -27,7 +27,7 @@ public class Main {
         List<Prestamo> prestamos = prestamoC.listPrestamos();
         Scanner sc = new Scanner(System.in);
 
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-YYYY");
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-yyyy");
 
         System.out.println("------Bienvenido----");
         
@@ -286,7 +286,7 @@ public class Main {
                                 Date rangefecha = null;
                                 int librosPrestados = 0;
                                 for(Prestamo prestamos_index : prestamos){
-                                    if(prestamos_index.getFechaDevolucion().after(inicioRango) && prestamos_index.getFechaDevolucion().before(finRango)){
+                                    if(prestamos_index.getFechaPrestamo().after(inicioRango) && prestamos_index.getFechaPrestamo().before(finRango)){
                                         librosPrestados++;
                                     }
                                 }
