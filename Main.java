@@ -283,7 +283,6 @@ public class Main {
                                     }
                                 }
 
-                                Date rangefecha = null;
                                 int librosPrestados = 0;
                                 for(Prestamo prestamos_index : prestamos){
                                     if(prestamos_index.getFechaPrestamo().after(inicioRango) && prestamos_index.getFechaPrestamo().before(finRango)){
@@ -310,13 +309,13 @@ public class Main {
                                 }
                                
                                 //Convertir lista de generos a mapa
-                                Map<String, Integer> conteo = new HashMap<>();
+                                Map<String, Integer> conteoGenero = new HashMap<>();
                                 for (String genero_index : generos){
-                                    conteo.put(genero_index, conteo.getOrDefault(genero_index, 0) + 1);
+                                    conteoGenero.put(genero_index, conteoGenero.getOrDefault(genero_index, 0) + 1);
                                 }
 
                                 //Ordenar la lista
-                                List<Map.Entry<String, Integer>> ordenamiento = new ArrayList<>(conteo.entrySet());
+                                List<Map.Entry<String, Integer>> ordenamiento = new ArrayList<>(conteoGenero.entrySet());
                                 ordenamiento.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
 
                                 //Obtener los tres generos mas pedidos
@@ -330,7 +329,33 @@ public class Main {
                                 break;
 
                             case "3":
-                                
+                            ArrayList<String> isbnPlural = new ArrayList<>();
+                            for (Prestamo prestamo_index : prestamos){
+                                isbnPlural.add(prestamo_index.getISBNLibro());
+                            }
+
+                            //Convertir lista de generos a mapa
+                            Map<String, Integer> conteoISBN = new HashMap<>();
+                            for (String isbn : isbnPlural){
+                                conteoISBN.put(isbn, conteoISBN.getOrDefault(isbn, 0) + 1);
+                            }
+
+                            //Ordenar la lista
+                            List<Map.Entry<String, Integer>> ordenamiento2 = new ArrayList<>(conteoISBN.entrySet());
+                            ordenamiento2.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
+
+                            //Obtener libro mas pedido
+                            String topLibro = ordenamiento2.get(0).getKey();
+                            String tituloTopLibro = null;
+                                for(Libro libro: libros){
+                                    if(libro.getIsbn().equals(topLibro)){
+                                        tituloTopLibro = libro.getTitulo();
+                                    }
+                                }
+
+                                System.out.println("El libro mas pedido es: " + tituloTopLibro + "\n");
+
+
                                 break;
 
                             case "4":
