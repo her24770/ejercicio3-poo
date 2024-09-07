@@ -125,12 +125,7 @@ public class Prestamo {
      * Devuelve los valores del objeto
      */
     public String toString(){
-        return "\nId del Miembro: " + idMiembro +
-        "\nInicio prestamo: " + fechaPrestamo +
-        "\nFin prestamo : " + fechaDevolucion +
-        "\nId de la Sucursal: " + idSucursal +
-        "\nISBN: " + ISBNLibro +
-        "\nPrestamo activo: " + activo + "\n"; 
+        return "Prestamo del libro "+ISBNLibro+"por miembro"+idMiembro+ " del "+fechaPrestamo+" al "+fechaDevolucion+" sucursal "+ idSucursal;
     }
 
 }

@@ -7,6 +7,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -82,6 +83,46 @@ public class PrestamoController {
        } catch (IOException e) {
            System.err.println("Error al escribir en el archivo CSV: " + e.getMessage());
        }
+   }
+
+   public void updatePrestamo(Prestamo updatePrestamo, int filaAEditar){
+    // Leer todas las filas del archivo CSV
+        List<String[]> rows = new ArrayList<>();
+
+        try (BufferedReader br = new BufferedReader(new FileReader("prestamos.csv"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                // Dividir cada línea por comas
+                String[] data = line.split(",");
+                rows.add(data);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (rows.size() > filaAEditar) {
+            // Nueva fila que queremos poner en su lugar
+            String datei = ""+updatePrestamo.getFechaPrestamo();
+            String datef = ""+updatePrestamo.getFechaDevolucion();
+            System.out.print(datei+datef);
+            String[] nuevaFila = {Integer.toString(updatePrestamo.getIdMiembro()),
+                                                    datei,
+                                                    datef,
+                                                    Integer.toString(updatePrestamo.getIdSucursal()),
+                                                    updatePrestamo.getISBNLibro(),
+                                                    String.valueOf(updatePrestamo.getActivo())};
+            rows.set(filaAEditar, nuevaFila);  // Reemplazar la fila existente con la nueva fila
+        }
+
+        // Guardar los cambios escribiendo el archivo CSV de nuevo
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("prestamos.csv"))) {
+            for (String[] row : rows) {
+                bw.write(String.join(",", row));
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
    }
     
 }

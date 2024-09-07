@@ -213,35 +213,32 @@ public class Main {
                     
                     prestamoC.addPrestamo(newPrestamo);
                     prestamos = prestamoC.listPrestamos();
-                    for(Prestamo prestamo:prestamos)System.out.println(prestamo);
-    
                     break;
 
                 case "5":
                     System.out.println("-- LISTA DE PRESTAMOS --");
                     List<Prestamo> presatmosActivos=new ArrayList<>(); 
                     Prestamo prestamoFind = new Prestamo();
-                    for(int i =0; i<prestamos.size(); i++){
+                    for( int i =0; i<prestamos.size(); i++){
                         if(prestamos.get(i).getActivo()==true){
                             presatmosActivos.add(prestamos.get(i));
                             System.out.println("    "+(i+1)+". "+prestamos.get(i).toString());
                         }
                     }
+                    System.out.println("Ingrese el numero prestamo que desea cambiar de estado");
                     int indexPrestamo = Integer.parseInt(sc.nextLine());
-                    if (0>indexPrestamo && indexPrestamo>presatmosActivos.size()) {
-                        System.out.println("Este libro no existe");
+                    if (1>indexPrestamo || indexPrestamo>prestamos.size()) {
+                        System.out.println("Este prestamo no existe");
                     }else{
-                        prestamoFind = presatmosActivos.get(indexPrestamo-1);
-                        //
+                        prestamoFind = prestamos.get(indexPrestamo-1);
                         for(Prestamo prestamo: prestamos){
                             if(prestamo.equals(prestamoFind)){
                                 prestamo.setActivo(false);
                             }
                         }
-                        //
-                        for(Prestamo prestamo : prestamos){
-                            System.out.print(prestamo.toString());
-                        }
+                        //update csv
+                        prestamoC.updatePrestamo(prestamoFind, indexPrestamo);
+                        prestamos=prestamoC.listPrestamos();
                     }
                     
                     break;
