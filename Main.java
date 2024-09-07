@@ -4,6 +4,12 @@ import java.util.Scanner;
 import java.io.File;
 import java.util.Date;
 import java.util.Calendar;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import controllers.*;
 import modells.*;
@@ -22,6 +28,8 @@ public class Main {
         List<Sucursal> sucursales = sucursalC.listSucursales();
         List<Prestamo> prestamos = prestamoC.listPrestamos();
         Scanner sc = new Scanner(System.in);
+
+        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-YYYY");
 
         System.out.println("------Bienvenido----");
         
@@ -166,18 +174,25 @@ public class Main {
                             System.out.print("No existe, ingrese otro: ");
                             intentoMiembro = Integer.parseInt(sc.nextLine());
                         }
-                    } 
+                    }    
+                    Date fechai = new Date(); 
+                    String textFechai = formato.format(fechai);
+                    try{
+                        newPrestamo.setFechaPrestamo(formato.parse(textFechai));
+                    }catch(ParseException e){
+                        System.err.println("Error al añadir fecha de inicio");
+                    }
+                    Calendar dias = Calendar.getInstance();
+                    dias.setTime(fechai);
+                    dias.add(Calendar.DAY_OF_MONTH, 7);
+                    Date fechaf = dias.getTime();
+                    String textFechaf = formato.format(fechaf);
+                    try{
+                    newPrestamo.setFechaDevolucion(formato.parse(textFechaf));
+                    }catch(ParseException e){
+                        System.err.println("Error al añadir fecha de inicio");
+                    }
                             
-                            Date fechai = new Date(); 
-                            newPrestamo.setFechaPrestamo(fechai);
-
-                            Calendar dias = Calendar.getInstance();
-                            dias.setTime(fechai);
-                            dias.add(Calendar.DAY_OF_MONTH, 7);
-                            Date fechaf = dias.getTime();
-                            newPrestamo.setFechaDevolucion(fechaf);
-                            
-                    
 
                     Boolean libroExists = false;
                     System.out.print("Ingrese el ISBN del libro que quiere prestar: ");
@@ -216,10 +231,10 @@ public class Main {
                 case "5":
                     System.out.println("-- LISTA DE PRESTAMOS --");
                     List<Prestamo> presatmosActivos=new ArrayList<>(); 
-                    for(Prestamo prestamo: prestamos){
-                        if(prestamo.getActivo()==true){
-                            presatmosActivos.add(prestamo);
-                            System.out.println(prestamo.toString());
+                    for(Prestamo prestamoi: prestamos){
+                        if(prestamoi.getActivo()==true){
+                            presatmosActivos.add(prestamoi);
+                            System.out.println(prestamoi.toString());
                         }
                     }
                     int indexprestamo = Integer.parseInt(sc.nextLine());
@@ -232,16 +247,80 @@ public class Main {
                         System.out.print("\n----- ESTADISTICAS ------"+
                                         "\n1. Cantidad de libros prestados"+
                                         "\n2. Generos mas solicitados"+
-                                        "\n3. Lirbo mas prestado"+
+                                        "\n3. Libro mas prestado"+
                                         "\n4. Salir"+
-                                        "\nIngrese su opcion : ");
+                                        "\n\nIngrese su opcion : ");
                         String optionMenuEstadisticas = sc.nextLine();
                         switch (optionMenuEstadisticas) {
                             case "1":
-                                
+
+                                Boolean inicioVacio = true;
+                                Date inicioRango = null;
+                                while(inicioVacio){
+                                    System.out.print("Ingrese la fecha de inicio (DD-MM-YYYY): "); 
+                                    try{
+                                        inicioRango = formato.parse(sc.nextLine());
+                                        inicioVacio = false;
+                                    } catch(ParseException e ){
+                                        System.out.println("Error al ingresar fecha, recuerda utilizar el formato descrito");
+                                    }
+                                }
+
+                                Date finRango = null;
+                                Boolean finVacio = true;
+                                while(finVacio){
+                                    System.out.print("Ingrese la fecha de fin (DD-MM-YYYY): "); 
+                                    try{
+                                        finRango = formato.parse(sc.nextLine());
+                                        finVacio = false;
+                                    } catch(ParseException e ){
+                                        System.out.println("Error al ingresar fecha, recuerda utilizar el formato descrito");
+                                    }
+                                }
+
+                                Date rangefecha = null;
+                                int librosPrestados = 0;
+                                for(Prestamo prestamos_index : prestamos){
+                                    if(prestamos_index.getFechaDevolucion().after(inicioRango) && prestamos_index.getFechaDevolucion().before(finRango)){
+                                        librosPrestados++;
+                                    }
+                                }
+
+                                System.out.println("\n<<Entre esas fechas se prestaron " + librosPrestados + " libros>>");
                                 break;
 
                             case "2":
+                                
+                                ArrayList<String> generos = new ArrayList<>();
+                                String libroPedido = null; 
+                                for (Prestamo prestamo_index : prestamos){
+                                    libroPedido = prestamo_index.getISBNLibro();
+
+                                    for (Libro libro : libros){
+                                        if(libroPedido.equals(libro.getIsbn())){
+
+                                            generos.add(libro.getGenero());
+                                        }
+                                    }
+                                }
+                               
+                                //Convertir lista de generos a mapa
+                                Map<String, Integer> conteo = new HashMap<>();
+                                for (String genero_index : generos){
+                                    conteo.put(genero_index, conteo.getOrDefault(genero_index, 0) + 1);
+                                }
+
+                                //Ordenar la lista
+                                List<Map.Entry<String, Integer>> ordenamiento = new ArrayList<>(conteo.entrySet());
+                                ordenamiento.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
+
+                                //Obtener los tres generos mas pedidos
+                                List<String> top3Generos = new ArrayList<>();
+                                    for(int top = 0; top < 3 && top < ordenamiento.size(); top++){
+                                        top3Generos.add(ordenamiento.get(top).getKey());
+                                    }
+
+                                    System.out.println("Los tres generos mas pedidos son: " + top3Generos + "\n");
                                 
                                 break;
 
