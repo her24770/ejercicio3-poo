@@ -7,21 +7,29 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Date;
 
 public class PrestamoController {
     public List<Prestamo> listPrestamos(){
         List<Prestamo> prestamos = new ArrayList<>();
-        SimpleDateFormat formato = new SimpleDateFormat("dd-MM-YYYY");
-
-       try (BufferedReader br = new BufferedReader(new FileReader("prestamos.csv"))) {
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder()
+                .parseCaseInsensitive()
+                .appendPattern("EEE MMM dd HH:mm:ss ")
+                .optionalStart()
+                .appendZoneText(TextStyle.SHORT)
+                .optionalEnd()
+                .appendPattern(" yyyy")
+                .toFormatter(Locale.ENGLISH);
+        try (BufferedReader br = new BufferedReader(new FileReader("prestamos.csv"))) {
            String linea;
            boolean esPrimeraLinea = true;
-
            while ((linea = br.readLine()) != null) {
                // Saltar la primera línea que contiene encabezados
                if (esPrimeraLinea) {
@@ -32,8 +40,15 @@ public class PrestamoController {
                String[] valores = linea.split(",");
                // Definir el valor de cada atributo
                int idMiembro = Integer.parseInt(valores[0].trim());
-               Date fechaPrestamo = formato.parse(valores[1].trim());    
-               Date fechaDevolucion =  formato.parse(valores[2].trim());
+
+
+
+               ZonedDateTime zonedDateTimeI = ZonedDateTime.parse(valores[1].trim(), formatter);   
+               ZonedDateTime zonedDateTimeF = ZonedDateTime.parse(valores[2].trim(), formatter);
+               Date fechaPrestamo =  Date.from(zonedDateTimeI.toInstant());
+               Date fechaDevolucion =  Date.from(zonedDateTimeF.toInstant());
+
+
                int idSucursal = Integer.parseInt(valores[3].trim());
                String ISBNPrestamo = valores[4].trim();
                Boolean activo = Boolean.parseBoolean(valores[5].trim());
@@ -43,8 +58,9 @@ public class PrestamoController {
            }
        } catch (IOException e) {
            System.err.println("\nError al leer el archivo CSV: " + e.getMessage());
-        }catch(ParseException e){
-            System.err.println("\nError al leer la fecha:  " + e.getMessage());
+        }
+        catch (Exception e) {
+            System.out.println("Error al convertir la fecha: " + e.getMessage());
         }
        return prestamos;
    }

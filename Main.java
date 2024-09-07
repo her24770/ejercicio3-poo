@@ -8,8 +8,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
 
 import controllers.*;
 import modells.*;
@@ -187,20 +185,20 @@ public class Main {
                     Boolean libroExists = false;
                     System.out.print("Ingrese el ISBN del libro que quiere prestar: ");
                     String intentoLibro = sc.nextLine();
-                    Libro prestamo = null;
+                    Libro libroPrestamo = null;
                     while(!libroExists){
                         
                         for (Libro libro : libros){
                             if (libro.getIsbn().equals(intentoLibro) ){
                                 libroExists = true;
-                                prestamo = libro;
+                                libroPrestamo = libro;
                             }
                         }
                         if (libroExists) {
                             System.out.print(">>>libro encontrado");
-                            if(prestamo.getDisponibles() > 0){
-                                newPrestamo.setISBNLibro(prestamo.getIsbn());
-                                newPrestamo.setIdSucursal(prestamo.getIdSucursal());
+                            if(libroPrestamo.getDisponibles() > 0){
+                                newPrestamo.setISBNLibro(libroPrestamo.getIsbn());
+                                newPrestamo.setIdSucursal(libroPrestamo.getIdSucursal());
                                 newPrestamo.setActivo(true);
                             }
                             else{
@@ -215,19 +213,36 @@ public class Main {
                     
                     prestamoC.addPrestamo(newPrestamo);
                     prestamos = prestamoC.listPrestamos();
+                    for(Prestamo prestamo:prestamos)System.out.println(prestamo);
     
                     break;
 
                 case "5":
                     System.out.println("-- LISTA DE PRESTAMOS --");
                     List<Prestamo> presatmosActivos=new ArrayList<>(); 
-                    for(Prestamo prestamoi: prestamos){
-                        if(prestamoi.getActivo()==true){
-                            presatmosActivos.add(prestamoi);
-                            System.out.println(prestamoi.toString());
+                    Prestamo prestamoFind = new Prestamo();
+                    for(int i =0; i<prestamos.size(); i++){
+                        if(prestamos.get(i).getActivo()==true){
+                            presatmosActivos.add(prestamos.get(i));
+                            System.out.println("    "+(i+1)+". "+prestamos.get(i).toString());
                         }
                     }
-                    int indexprestamo = Integer.parseInt(sc.nextLine());
+                    int indexPrestamo = Integer.parseInt(sc.nextLine());
+                    if (0>indexPrestamo && indexPrestamo>presatmosActivos.size()) {
+                        System.out.println("Este libro no existe");
+                    }else{
+                        prestamoFind = presatmosActivos.get(indexPrestamo-1);
+                        //
+                        for(Prestamo prestamo: prestamos){
+                            if(prestamo.equals(prestamoFind)){
+                                prestamo.setActivo(false);
+                            }
+                        }
+                        //
+                        for(Prestamo prestamo : prestamos){
+                            System.out.print(prestamo.toString());
+                        }
+                    }
                     
                     break;
 
