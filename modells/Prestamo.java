@@ -126,7 +126,7 @@ public class Prestamo {
      * Devuelve los valores del objeto
      */
     public String toString(){
-        return "Prestamo del libro "+ISBNLibro+"por miembro"+idMiembro+ " del "+fechaPrestamo+" al "+fechaDevolucion+" sucursal "+ idSucursal;
+        return "Prestamo del libro ("+ISBNLibro+") realizado por " + idMiembro + " del "+fechaPrestamo+" al "+ fechaDevolucion + " en la sucursal "+ idSucursal +" \n";
     }
 
 }
