@@ -231,7 +231,7 @@ public class Main {
                     for( int i =0; i<prestamos.size(); i++){
                         if(prestamos.get(i).getActivo()==true){
                             presatmosActivos.add(prestamos.get(i));
-                            System.out.println("    "+(i+1)+". "+prestamos.get(i).toString());
+                            System.out.println((i+1)+". "+prestamos.get(i).toString());
                         }
                     }
                     System.out.print("Ingrese el numero prestamo que desea cambiar de estado");

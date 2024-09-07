@@ -46,7 +46,7 @@ public class MiembroController {
                 miembros.add(miembro);
             }
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo CSV: " + e.getMessage());
+            
         }
         return miembros;
     }
@@ -67,7 +67,7 @@ public class MiembroController {
             bw.write(newLine);
             bw.newLine();  
         } catch (IOException e) {
-            System.err.println("Error al escribir en el archivo CSV: " + e.getMessage());
+            
         }
     }
 }

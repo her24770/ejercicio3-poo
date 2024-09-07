@@ -57,10 +57,10 @@ public class PrestamoController {
                prestamos.add(prestamo);
            }
        } catch (IOException e) {
-           System.err.println("\nError al leer el archivo CSV: " + e.getMessage());
+           
         }
         catch (Exception e) {
-            System.out.println("Error al convertir la fecha: " + e.getMessage());
+            
         }
        return prestamos;
    }
@@ -80,7 +80,7 @@ public class PrestamoController {
            bw.write(newLine);
            bw.newLine();  
        } catch (IOException e) {
-           System.err.println("Error al escribir en el archivo CSV: " + e.getMessage());
+           
        }
    }
 
