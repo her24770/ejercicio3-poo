@@ -49,7 +49,7 @@ public class LibroController {
                 libros.add(libro);
             }
         } catch (IOException e) {
-            System.err.println("Error al leer el archivo CSV: " + e.getMessage());
+            
         }
         return libros;
     }
@@ -74,7 +74,7 @@ public class LibroController {
             bw.write(newLine);
             bw.newLine();  
         } catch (IOException e) {
-            System.err.println("Error al escribir en el archivo CSV: " + e.getMessage());
+           
         }
     }
 }
