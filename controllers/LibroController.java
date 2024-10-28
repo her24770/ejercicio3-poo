@@ -21,6 +21,10 @@ public class LibroController {
     * Lee el archivo CSV y convierte las filas en un objeto, el libro
     * @return List<Libro> Una lista de objetos Libro obtenidos del archivo CSV.
     */
+
+int numero = 7.8;
+System.out.println(numero);
+
     public List<Libro> listLibros(){
          List<Libro> libros = new ArrayList<>();
 
